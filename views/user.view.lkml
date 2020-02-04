@@ -8,6 +8,8 @@ view: user {
     sql: ${TABLE}."id" ;;
   }
 
+  dimension: test {}
+
   dimension: access_token {
     type: string
     sql: ${TABLE}."access_token" ;;

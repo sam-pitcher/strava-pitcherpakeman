@@ -11,13 +11,17 @@ datagroup: strava_default_datagroup {
 persist_with: strava_default_datagroup
 
 explore: activity {
+  join: activity_grouping {
+    type: left_outer
+    sql_on: ${activity.activity_id} = ${activity_grouping.activity_id} ;;
+    relationship: one_to_one
+  }
+
   join: user {
     type: left_outer
     sql_on: ${activity.user_id} = ${user.id} ;;
     relationship: many_to_one
   }
 }
-
-explore: alembic_version {}
 
 explore: user {}

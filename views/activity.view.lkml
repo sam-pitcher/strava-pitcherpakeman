@@ -8,39 +8,48 @@ view: activity {
     sql: ${TABLE}."activity_id" ;;
   }
 
-  dimension: activity_type {
+  dimension: type {
+    # Declared in Activity Grouping
+    hidden: yes
     type: string
     sql: ${TABLE}."activity_type" ;;
   }
 
   dimension: avg_heartrate {
     type: string
-    sql: ${TABLE}."avg_heartrate" ;;
+    sql: CAST(${TABLE}."avg_heartrate" AS FLOAT) ;;
   }
 
   dimension: avg_power {
     type: string
-    sql: ${TABLE}."avg_power" ;;
+    sql: CAST(${TABLE}."avg_power" AS FLOAT) ;;
   }
 
   dimension: avg_speed {
     type: string
-    sql: ${TABLE}."avg_speed" ;;
+    sql: CAST(${TABLE}."avg_speed" AS FLOAT) ;;
   }
 
   dimension: distance {
-    type: string
-    sql: ${TABLE}."distance" ;;
+    type: number
+    sql: CAST(${TABLE}."distance" AS FLOAT) ;;
+  }
+
+  dimension: distance_for_scatter {
+    type: number
+    sql: ${distance} + (0.000001 * ${id}) ;;
+    value_format_name: decimal_2
+    html: {{rendered_value}}m ;;
   }
 
   dimension: duration {
     type: string
-    sql: ${TABLE}."duration" ;;
+    sql: CAST(${TABLE}."duration" AS FLOAT) ;;
   }
 
   dimension: elevation {
     type: string
-    sql: ${TABLE}."elevation" ;;
+    sql: CAST(${TABLE}."elevation" AS FLOAT) ;;
   }
 
   dimension: epoch {
@@ -55,17 +64,17 @@ view: activity {
 
   dimension: max_heartrate {
     type: string
-    sql: ${TABLE}."max_heartrate" ;;
+    sql: CAST(${TABLE}."max_heartrate" AS FLOAT) ;;
   }
 
   dimension: max_power {
     type: string
-    sql: ${TABLE}."max_power" ;;
+    sql: CAST(${TABLE}."max_power" AS FLOAT) ;;
   }
 
   dimension: max_speed {
     type: string
-    sql: ${TABLE}."max_speed" ;;
+    sql: CAST(${TABLE}."max_speed" AS FLOAT) ;;
   }
 
   dimension: name {
@@ -78,21 +87,7 @@ view: activity {
     sql: ${TABLE}."name_id" ;;
   }
 
-  dimension_group: timenow {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}."timenow" ;;
-  }
-
-  dimension_group: timestamp {
+  dimension_group: activity {
     type: time
     timeframes: [
       raw,
@@ -108,8 +103,24 @@ view: activity {
 
   dimension: user_id {
     type: number
-    # hidden: yes
+    hidden: yes
     sql: ${TABLE}."user_id" ;;
+  }
+
+  measure: total_distance {
+    type: sum
+    sql: ${distance} ;;
+  }
+
+  measure: total_duration_seconds {
+    type: sum
+    sql: ${duration} ;;
+  }
+
+  measure: total_duration {
+    type: number
+    sql: ${total_duration_seconds} / 86400 ;;
+    value_format: "hh:mm:ss"
   }
 
   measure: count {
