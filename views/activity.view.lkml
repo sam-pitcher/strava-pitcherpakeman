@@ -80,6 +80,7 @@ view: activity {
   dimension: name {
     type: string
     sql: ${TABLE}."name" ;;
+    html: <a href="https://www.strava.com/activities/{{id._value}}">{{rendered_value}}</a> ;;
   }
 
   dimension: name_id {
