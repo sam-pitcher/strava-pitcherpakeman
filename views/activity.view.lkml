@@ -115,7 +115,8 @@ view: activity {
   measure: total_distance {
     type: sum
     sql: 1.0 * ${distance} / 1000 ;;
-    html: {{rendered_value}}km ;;
+    value_format_name: decimal_1
+    html: {{rendered_value}} km ;;
   }
 
   measure: total_duration_seconds {
