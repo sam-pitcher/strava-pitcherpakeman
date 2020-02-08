@@ -11,6 +11,10 @@ datagroup: strava_default_datagroup {
 persist_with: strava_default_datagroup
 
 explore: activity {
+  access_filter: {
+    field: user.username
+    user_attribute: strava_heroku_username
+  }
   join: activity_grouping {
     type: left_outer
     sql_on: ${activity.activity_id} = ${activity_grouping.activity_id} ;;
