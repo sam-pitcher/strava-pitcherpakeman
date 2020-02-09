@@ -32,14 +32,14 @@ view: activity {
 
   dimension: distance {
     type: number
-    sql: CAST(${TABLE}."distance" AS FLOAT) ;;
+    sql: CAST(${TABLE}."distance" AS FLOAT) / 1000 ;;
   }
 
   dimension: distance_for_scatter {
     type: number
     sql: ${distance} + (0.000001 * ${id}) ;;
     value_format_name: decimal_2
-    html: {{rendered_value}}m ;;
+    html: {{rendered_value}} km ;;
   }
 
   dimension: duration {
@@ -114,7 +114,7 @@ view: activity {
 
   measure: total_distance {
     type: sum
-    sql: 1.0 * ${distance} / 1000 ;;
+    sql: 1.0 * ${distance} ;;
     value_format_name: decimal_1
     html: {{rendered_value}} km ;;
   }
