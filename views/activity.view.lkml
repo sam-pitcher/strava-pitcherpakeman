@@ -68,7 +68,7 @@ view: activity {
   }
 
   dimension: max_power {
-    type: string
+    type: number
     sql: CAST(${TABLE}."max_power" AS FLOAT) ;;
   }
 
@@ -85,6 +85,28 @@ view: activity {
       label: "See {{value}} on Strava"
       url: "https://www.strava.com/activities/{{activity_id._value}}"
     }
+  }
+
+  dimension: name_contains_parkrun {
+#     hidden: yes
+    type: yesno
+    sql: LOWER(${name}) LIKE '%parkrun%' OR LOWER(${name}) LIKE '%park run%' ;;
+  }
+
+  dimension: starts_before_10_saturday {
+#     hidden: yes
+    type: yesno
+    sql: EXTRACT('dow' from ${activity_raw}) = 6 AND EXTRACT('hour' from ${activity_raw}) < 10 ;;
+  }
+
+  dimension: is_parkrun {
+    type: yesno
+    sql: ${name_contains_parkrun} AND ${starts_before_10_saturday} ;;
+  }
+
+  dimension: day_of_week {
+    type: number
+    sql: EXTRACT('dow' from ${activity_raw}) ;;
   }
 
   dimension: name_id {
