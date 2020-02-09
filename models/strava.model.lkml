@@ -16,6 +16,7 @@ explore: activity {
     user_attribute: strava_heroku_username
   }
   join: activity_grouping {
+    view_label: "Activity"
     type: left_outer
     sql_on: ${activity.activity_id} = ${activity_grouping.activity_id} ;;
     relationship: one_to_one
