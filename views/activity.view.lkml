@@ -2,6 +2,26 @@ view: activity {
   sql_table_name: public.activity ;;
   drill_fields: [activity_id]
 
+  dimension: give_feedback {
+    sql: 1 ;;
+    action: {
+      label: "Fill out form"
+      url: "https://stravateat.free.beeceptor.com"
+      form_param: {
+        name: "Title"
+        type: string
+      }
+      form_param: {
+        name: "Stuff"
+        type: textarea
+      }
+      user_attribute_param: {
+        user_attribute: email
+        name: "email"
+      }
+    }
+  }
+
   dimension: activity_id {
     primary_key: yes
     type: string
@@ -134,11 +154,25 @@ view: activity {
     sql: ${TABLE}."user_id" ;;
   }
 
+  dimension: distance_benchmark {
+    type: number
+    sql: 3 ;;
+
+  }
+
   measure: total_distance {
     type: sum
     sql: 1.0 * ${distance} ;;
     value_format_name: decimal_1
-    html: {{rendered_value}} km ;;
+#     html: {{rendered_value}} km ;;
+    html:
+    {% if value < distance_benchmark._value %}
+    <font color="darkred">{{ rendered_value }} km</font>
+    {% elsif value > distance_benchmark._value %}
+    <font color="darkgreen">{{ rendered_value }} km</font>
+    {% else %}
+    <font color="goldenrod">{{ rendered_value }} km</font>
+    {% endif %} ;;
   }
 
   measure: total_duration_seconds {
@@ -154,6 +188,6 @@ view: activity {
 
   measure: count {
     type: count
-    drill_fields: [activity_id, name, user.id, user.username]
+    drill_fields: [activity_id, name, count]
   }
 }

@@ -24,6 +24,10 @@ view: activity_grouping {
     type: string
     sql: ${activity.type} ;;
     suggest_dimension: activity.type
+    link: {
+      label: "Activity Dashboard for {{value}}"
+      url: "/dashboards/9?Type={{value}}"
+    }
   }
 
   dimension: grouping {
