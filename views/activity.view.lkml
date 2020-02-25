@@ -69,8 +69,19 @@ view: activity {
 
   dimension: pace {
     type: number
-    sql: (1.0 * (${duration}/60) / NULLIF(${distance},0))/1440 ;;
+    sql:
+    CASE
+    WHEN ${type} = 'Run' THEN (1.0 * (${duration}/60) / NULLIF(${distance},0))/1440
+    WHEN ${type} = 'Swim' THEN (1.0 * (${duration}/60) / NULLIF(${distance}*10,0))/1440
+    ELSE null
+    END;;
     value_format: "mm:ss"
+    html:
+    {% if type._value == 'Run' %}{{rendered_value}} min/km
+    {% elsif type._value == 'Swim' %}{{rendered_value}} min/100m
+    {% else %}{{rendered_value}}
+    {% endif %}
+    ;;
   }
 
   dimension: elevation {
