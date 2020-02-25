@@ -67,6 +67,12 @@ view: activity {
     sql: CAST(${TABLE}."duration" AS FLOAT) ;;
   }
 
+  dimension: pace {
+    type: number
+    sql: (1.0 * (${duration}/60) / NULLIF(${distance},0))/1440 ;;
+    value_format: "mm:ss"
+  }
+
   dimension: elevation {
     type: string
     sql: CAST(${TABLE}."elevation" AS FLOAT) ;;
