@@ -11,10 +11,12 @@ datagroup: strava_default_datagroup {
 persist_with: strava_default_datagroup
 
 explore: activity {
+
   access_filter: {
     field: user.username
     user_attribute: strava_heroku_username
   }
+
   join: activity_grouping {
     view_label: "Activity"
     type: left_outer
@@ -27,6 +29,14 @@ explore: activity {
     sql_on: ${activity.user_id} = ${user.id} ;;
     relationship: many_to_one
   }
+
+  join: weightings {
+    type: left_outer
+    sql_on: true ;;
+    relationship: many_to_one
+  }
+
+  sql_always_where: {% condition activity_grouping.type %} ${type} {% endcondition %} ;;
 }
 
 explore: user {}

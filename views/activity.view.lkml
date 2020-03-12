@@ -2,6 +2,10 @@ view: activity {
   sql_table_name: public.activity ;;
   drill_fields: [activity_id]
 
+  parameter: type_parameter {
+    suggest_dimension: type
+  }
+
   dimension: give_feedback {
     sql: 1 ;;
     action: {
@@ -35,6 +39,13 @@ view: activity {
     sql: ${TABLE}."activity_type" ;;
   }
 
+  dimension: type_category {
+    # Declared in Activity Grouping
+#     hidden: yes
+    type: string
+    sql: CASE WHEN ${type} IN ('Run', 'Swim') THEN ${type} ELSE 'Other' END ;;
+  }
+
   dimension: avg_heartrate {
     type: string
     sql: CAST(${TABLE}."avg_heartrate" AS FLOAT) ;;
@@ -53,6 +64,18 @@ view: activity {
   dimension: distance {
     type: number
     sql: CAST(${TABLE}."distance" AS FLOAT) / 1000 ;;
+  }
+
+  dimension: weighted_distance {
+    type: number
+    sql:
+    CASE
+      WHEN ${type} = 'Run' THEN ${distance} * 3
+      WHEN ${type} = 'Swim' THEN ${distance} * 8
+    ELSE
+      1
+    END
+    ;;
   }
 
   dimension: distance_for_scatter {
@@ -112,6 +135,26 @@ view: activity {
   dimension: max_speed {
     type: string
     sql: CAST(${TABLE}."max_speed" AS FLOAT) ;;
+  }
+
+  dimension: start_lat {
+    type: number
+    sql: CAST(${TABLE}."start_lat" AS FLOAT) ;;
+  }
+
+  dimension: start_lng {
+    type: number
+    sql: CAST(${TABLE}."start_lng" AS FLOAT) ;;
+  }
+
+  dimension: end_lat {
+    type: number
+    sql: CAST(${TABLE}."end_lat" AS FLOAT) ;;
+  }
+
+  dimension: end_lng {
+    type: number
+    sql: CAST(${TABLE}."end_lng" AS FLOAT) ;;
   }
 
   dimension: name {
@@ -207,4 +250,80 @@ view: activity {
     type: count
     drill_fields: [activity_id, name, count]
   }
+
+  measure: total_count {
+    hidden: yes
+    type: number
+    sql: SUM(${count}) OVER() ;;
+  }
+
+  measure: other_count {
+    hidden: yes
+    type: sum
+    sql: 1 ;;
+    filters: {
+      field: type_category
+      value: "Other"
+    }
+  }
+
+  measure: weighted_count_temp {
+    hidden: yes
+    type: sum
+    sql:
+    CASE
+      WHEN ${type} = 'Run' THEN 1.3
+      WHEN ${type} = 'Swim' THEN 1.8
+    ELSE
+      0
+    END
+    ;;
+  }
+
+  measure: weighted_count {
+    type: sum
+    sql:
+    CASE
+      WHEN ${type} = 'Run' THEN 1.3
+      WHEN ${type} = 'Swim' THEN 1.8
+    ELSE
+      ${weightings.other_weighting}
+    END
+    ;;
+  }
+
+}
+
+view: weightings {
+  derived_table: {
+    explore_source: activity {
+      column: weighted_count_temp {}
+      column: other_count {}
+      column: total_count {}
+      bind_all_filters: yes
+    }
+  }
+
+  dimension: weighted_count_temp {
+    primary_key: yes
+    hidden: yes
+    type: number
+  }
+
+  dimension: other_count {
+    hidden: yes
+    type: number
+  }
+
+  dimension: total_count {
+    hidden: yes
+    type: number
+  }
+
+  dimension: other_weighting {
+    hidden: yes
+    type: number
+    sql: 1.0*(${total_count}-${weighted_count_temp})/NULLIF(${other_count},0) ;;
+  }
+
 }
