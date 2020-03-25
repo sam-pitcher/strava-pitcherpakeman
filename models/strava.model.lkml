@@ -17,11 +17,6 @@ explore: activity {
     user_attribute: strava_heroku_username
   }
 
-  access_filter: {
-    field: activity.type
-    user_attribute: type
-  }
-
   join: activity_grouping {
     view_label: "Activity"
     type: left_outer
