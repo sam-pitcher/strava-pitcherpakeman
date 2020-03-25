@@ -5,7 +5,7 @@ include: "/views/**/*.view"
 
 datagroup: strava_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
-  max_cache_age: "1 hour"
+  max_cache_age: "1 minute"
 }
 
 persist_with: strava_default_datagroup
@@ -19,7 +19,7 @@ explore: activity {
 
   access_filter: {
     field: activity.type
-    user_attribute: strava_heroku_username
+    user_attribute: type
   }
 
   join: activity_grouping {
