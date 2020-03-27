@@ -9,6 +9,9 @@ datagroup: strava_default_datagroup {
 }
 
 persist_with: strava_default_datagroup
+datagroup: sdf {
+  max_cache_age: "1 hour"
+}
 
 explore: activity {
 
