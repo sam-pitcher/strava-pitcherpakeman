@@ -42,4 +42,6 @@ explore: activity {
   sql_always_where: {% condition activity_grouping.type %} ${type} {% endcondition %} ;;
 }
 
+explore: activity_streams {}
+
 explore: user {}

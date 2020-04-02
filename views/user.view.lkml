@@ -50,6 +50,11 @@ view: user {
     sql: ${TABLE}."username" ;;
   }
 
+  dimension: streams {
+    type: string
+    sql: ${TABLE}."streams" ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, username, activity.count]
