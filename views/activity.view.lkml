@@ -39,9 +39,14 @@ view: activity {
     sql: ${TABLE}."activity_type" ;;
   }
 
-  dimension: activity_image {
+  dimension: icon_url {
     type: string
     sql: ${TABLE}.icon_url ;;
+  }
+
+  dimension: activity_image {
+    type: string
+    sql: ${icon_url} ;;
     html: <img src={{value}} width="100px" height="100px"> ;;
   }
 
