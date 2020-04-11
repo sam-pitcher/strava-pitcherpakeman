@@ -39,6 +39,18 @@ explore: activity {
     relationship: many_to_one
   }
 
+  join: activity_streams {
+    type: left_outer
+    sql_on: ${activity.activity_id} = ${activity_streams.activity_id} ;;
+    relationship: one_to_many
+  }
+
+#   join: activity_max {
+#     type: left_outer
+#     sql_on: ${activity.activity_id} = ${activity_max.activity_id} ;;
+#     relationship: one_to_many
+#   }
+
   sql_always_where: {% condition activity_grouping.type %} ${type} {% endcondition %} ;;
 }
 

@@ -3,6 +3,7 @@ view: activity_streams {
     (SELECT
       activity_id,
       nullif(json_array_elements(streams::json#>'{time}')::TEXT,'null')::FLOAT AS time,
+      nullif(json_array_elements(streams::json#>'{original}')::TEXT,'null') AS original,
       nullif(json_array_elements(streams::json#>'{latlng}')::TEXT,'null') AS latlng,
       json_array_elements(streams::json#>'{latlng}')::json->>0 AS lat,
       json_array_elements(streams::json#>'{latlng}')::json->>1 AS lng,
@@ -32,6 +33,12 @@ view: activity_streams {
     type: number
     sql: ${TABLE}.time ;;
   }
+
+  dimension: original {
+    type: yesno
+    sql: ${TABLE}.original = 'true' ;;
+  }
+
 
   dimension: latlng {
     type: string
@@ -98,5 +105,31 @@ view: activity_streams {
     type: string
     sql: ${TABLE}.grade_smooth ;;
   }
+
+  measure: total_heartrate {
+    type: sum
+    sql: ${heartrate} ;;
+  }
+
+  measure: total_altitude {
+    type: sum
+    sql: ${altitude} ;;
+  }
+
+  measure: total_gradient {
+    type: sum
+    sql: ${grade_smooth} ;;
+  }
+
+  measure: total_speed {
+    type: sum
+    sql: ${velocity_smooth} ;;
+  }
+
+  measure: hr_speed {
+    type: number
+    sql: 1.0 * ${total_heartrate} / NULLIF(${total_speed},0) ;;
+  }
+
 
 }

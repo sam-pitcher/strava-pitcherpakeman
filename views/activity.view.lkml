@@ -39,6 +39,12 @@ view: activity {
     sql: ${TABLE}."activity_type" ;;
   }
 
+  dimension: activity_image {
+    type: string
+    sql: ${TABLE}.icon_url ;;
+    html: <img src={{value}} width="100px" height="100px"> ;;
+  }
+
   dimension: type_category {
     # Declared in Activity Grouping
 #     hidden: yes
@@ -179,6 +185,11 @@ view: activity {
     sql: EXTRACT('dow' from ${activity_raw}) = 6 AND EXTRACT('hour' from ${activity_raw}) < 10 ;;
   }
 
+  dimension: is_commute {
+    type: yesno
+    sql: ${TABLE}.is_commute ;;
+  }
+
   dimension: is_parkrun {
     type: yesno
     sql: ${name_contains_parkrun} AND ${starts_before_10_saturday} ;;
@@ -237,9 +248,29 @@ view: activity {
     {% endif %} ;;
   }
 
+  dimension: hash_date {
+    sql: MD5(CAST(current_date AS string)) ;;
+  }
+
   measure: total_duration_seconds {
     type: sum
     sql: ${duration} ;;
+    action: {
+      label: "My Action"
+      url: "https://stravalooker.free.beeceptor.com"
+      param: {
+        name: "LOOKER_KEY"
+        value: "UIWH84W7GHW4O8HGWO48HGW489GH4W8HG"
+      }
+      param: {
+        name: "Activity ID"
+        value: "{{activity_id._value}}"
+      }
+      form_param: {
+        name: "Change to:"
+        type: string
+      }
+    }
   }
 
   measure: total_duration {
