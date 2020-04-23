@@ -2,6 +2,7 @@ connection: "strava"
 
 # include all the views
 include: "/views/**/*.view"
+include: "../strava_lookml.dashboard"
 
 datagroup: strava_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -33,11 +34,11 @@ explore: activity {
     relationship: many_to_one
   }
 
-  join: weightings {
-    type: left_outer
-    sql_on: true ;;
-    relationship: many_to_one
-  }
+  # join: weightings {
+  #   type: left_outer
+  #   sql_on: true ;;
+  #   relationship: many_to_one
+  # }
 
   join: activity_streams {
     type: left_outer

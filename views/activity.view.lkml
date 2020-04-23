@@ -305,30 +305,30 @@ view: activity {
     }
   }
 
-  measure: weighted_count_temp {
-    hidden: yes
-    type: sum
-    sql:
-    CASE
-      WHEN ${type} = 'Run' THEN 1.3
-      WHEN ${type} = 'Swim' THEN 1.8
-    ELSE
-      0
-    END
-    ;;
-  }
+  # measure: weighted_count_temp {
+  #   hidden: yes
+  #   type: sum
+  #   sql:
+  #   CASE
+  #     WHEN ${type} = 'Run' THEN 1.3
+  #     WHEN ${type} = 'Swim' THEN 1.8
+  #   ELSE
+  #     0
+  #   END
+  #   ;;
+  # }
 
-  measure: weighted_count {
-    type: sum
-    sql:
-    CASE
-      WHEN ${type} = 'Run' THEN 1.3
-      WHEN ${type} = 'Swim' THEN 1.8
-    ELSE
-      ${weightings.other_weighting}
-    END
-    ;;
-  }
+  # measure: weighted_count {
+  #   type: sum
+  #   sql:
+  #   CASE
+  #     WHEN ${type} = 'Run' THEN 1.3
+  #     WHEN ${type} = 'Swim' THEN 1.8
+  #   ELSE
+  #     ${weightings.other_weighting}
+  #   END
+  #   ;;
+  # }
 
 }
 

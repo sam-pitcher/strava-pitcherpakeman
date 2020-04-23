@@ -87,7 +87,7 @@ view: activity_streams {
   }
 
   dimension: watts {
-    type: string
+    type: number
     sql: ${TABLE}.watts ;;
   }
 
@@ -111,6 +111,11 @@ view: activity_streams {
     sql: ${heartrate} ;;
   }
 
+  measure: max_heartrate {
+    type: max
+    sql: ${heartrate} ;;
+  }
+
   measure: total_altitude {
     type: sum
     sql: ${altitude} ;;
@@ -124,6 +129,54 @@ view: activity_streams {
   measure: total_speed {
     type: sum
     sql: ${velocity_smooth} ;;
+  }
+
+  measure: total_power {
+    type: sum
+    sql: ${watts} / 3541.0 ;;
+    value_format_name: decimal_1
+    html: {{rendered_value}} watts ;;
+  }
+
+  measure: count_distinct {
+    type: count_distinct
+    sql: ${time} ;;
+  }
+
+  measure: average_power {
+    type: average
+    sql: ${watts} ;;
+    value_format_name: decimal_1
+    html: {{rendered_value}} watts ;;
+  }
+
+  measure: weighted_power {
+    type: average
+    sql: ${watts} ;;
+    value_format_name: decimal_1
+    html: {{rendered_value}} watts ;;
+    filters: {
+      field: watts
+      value: ">0"
+    }
+  }
+
+  measure: max_power {
+    type: max
+    sql: ${watts} ;;
+    value_format_name: decimal_1
+    html: {{rendered_value}} watts ;;
+  }
+
+  measure: max_weighted_power {
+    type: max
+    sql: ${watts} ;;
+    value_format_name: decimal_1
+    html: {{rendered_value}} watts ;;
+    filters: {
+      field: watts
+      value: ">0"
+    }
   }
 
   measure: hr_speed {
