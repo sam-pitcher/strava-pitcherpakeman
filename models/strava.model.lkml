@@ -2,7 +2,6 @@ connection: "strava"
 
 # include all the views
 include: "/views/**/*.view"
-include: "../strava_lookml.dashboard"
 
 datagroup: strava_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
