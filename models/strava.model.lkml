@@ -57,3 +57,5 @@ explore: activity {
 explore: activity_streams {}
 
 explore: user {}
+
+explore: email_list {}
