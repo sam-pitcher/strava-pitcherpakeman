@@ -1,4 +1,4 @@
-connection: "strava"
+connection: "td"
 
 # include all the views
 include: "/views/**/*.view"

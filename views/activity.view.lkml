@@ -223,7 +223,7 @@ view: activity {
       quarter,
       year
     ]
-    sql: ${TABLE}."timestamp" ;;
+    sql: ${TABLE}."timestamp"::timestamp ;;
   }
 
   dimension: user_id {
