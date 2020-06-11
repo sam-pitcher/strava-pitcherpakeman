@@ -1,4 +1,5 @@
-connection: "strava"
+# connection: "strava"
+connection: "td"
 
 # include all the views
 include: "/views/**/*.view"
@@ -59,3 +60,9 @@ explore: activity_streams {}
 explore: user {}
 
 explore: email_list {}
+
+view: +activity {
+  dimension: refine {
+    sql: 'refine'::text ;;
+  }
+}

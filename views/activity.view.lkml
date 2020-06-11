@@ -6,6 +6,11 @@ view: activity {
     suggest_dimension: type
   }
 
+#   dimension: test_url {
+#     sql: 1 ;;
+#     html: {{ path }} ;;
+#   }
+
   dimension: give_feedback {
     sql: 1 ;;
     action: {
@@ -30,6 +35,12 @@ view: activity {
     primary_key: yes
     type: string
     sql: ${TABLE}."activity_id" ;;
+  }
+
+  dimension: segment_track {
+    type: string
+    tags: ["segment_anonymous_id"]
+    sql: 'segment' ;;
   }
 
   dimension: type {
@@ -223,7 +234,7 @@ view: activity {
       quarter,
       year
     ]
-    sql: ${TABLE}."timestamp" ;;
+    sql: ${TABLE}."timestamp"::timestamp ;;
   }
 
   dimension: user_id {
