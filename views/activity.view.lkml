@@ -298,6 +298,7 @@ view: activity {
   measure: count {
     type: count
     drill_fields: [activity_id, name, count]
+    tags: ["segment_anonymous_id"]
   }
 
   measure: total_count {
