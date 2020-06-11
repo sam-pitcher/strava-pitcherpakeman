@@ -39,7 +39,7 @@ view: activity {
 
   dimension: segment_track {
     type: string
-    tags: ["email"]
+    tags: ["user_id"]
     sql: 'segment' ;;
   }
 
