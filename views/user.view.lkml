@@ -20,6 +20,8 @@ view: user {
     sql: ${TABLE}."email" ;;
   }
 
+  dimension: sam {}
+
   dimension: expires_at {
     type: string
     sql: ${TABLE}."expires_at" ;;

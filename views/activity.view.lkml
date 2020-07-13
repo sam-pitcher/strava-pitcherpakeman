@@ -1,9 +1,16 @@
+include: "//the_look/views_common/period_over_period_postgresql.view"
+
 view: activity {
   sql_table_name: public.activity ;;
+  extends: [period_over_period_postgresql]
   drill_fields: [activity_id]
 
   parameter: type_parameter {
     suggest_dimension: type
+  }
+
+  dimension: pop_no_tz {
+    sql: ${activity_date} ;;
   }
 
 #   dimension: test_url {
