@@ -27,10 +27,10 @@ test: there_are_activities {
 
 explore: activity {
 
-  access_filter: {
-    field: user.username
-    user_attribute: strava_heroku_username
-  }
+#   access_filter: {
+#     field: user.username
+#     user_attribute: strava_heroku_username
+#   }
 
   join: activity_grouping {
     view_label: "Activity"
