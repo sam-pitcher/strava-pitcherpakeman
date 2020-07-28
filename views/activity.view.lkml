@@ -200,6 +200,14 @@ view: activity {
       label: "See {{value}} on Strava"
       url: "https://www.strava.com/activities/{{activity_id._value}}"
     }
+    link: {
+      label: "Activity Overview"
+      url: "/dashboards/24?Activity%20ID={{activity_id._value}}"
+    }
+    link: {
+      label: "PBL Activity Overview"
+      url: "http://127.0.0.1:5000/activity_overview/{{activity_id._value}}"
+    }
   }
 
   dimension: name_contains_parkrun {
