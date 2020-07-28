@@ -208,6 +208,10 @@ view: activity {
       label: "PBL Activity Overview"
       url: "http://127.0.0.1:5000/activity_overview/{{activity_id._value}}"
     }
+    link: {
+      label: "PBL Activity Overview Test"
+      url: "/activity_overview/{{activity_id._value}}"
+    }
   }
 
   dimension: name_contains_parkrun {
