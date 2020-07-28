@@ -14,6 +14,17 @@ datagroup: sdf {
   max_cache_age: "1 hour"
 }
 
+
+
+test: there_are_activities {
+  explore_source: activity {
+    column: count {}
+  }
+  assert: expected_count {
+    expression: ${activity.count} > 0 ;;
+  }
+}
+
 explore: activity {
 
   access_filter: {
@@ -52,7 +63,7 @@ explore: activity {
 #     relationship: one_to_many
 #   }
 
-  sql_always_where: {% condition activity_grouping.type %} ${type} {% endcondition %} ;;
+#   sql_always_where: {% condition activity_grouping.type %} ${type} {% endcondition %} ;;
 }
 
 explore: activity_streams {}
