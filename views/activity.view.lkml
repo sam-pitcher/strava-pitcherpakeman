@@ -10,6 +10,23 @@ view: activity {
     suggest_dimension: type
   }
 
+  parameter: measure_parameter {
+    type: unquoted
+    allowed_value: {
+      label: "Count"
+      value: "count"
+    }
+    allowed_value: {
+      label: "Distance"
+      value: "distance"
+    }
+    allowed_value: {
+      label: "Duration"
+      value: "duration"
+    }
+    default_value: "count"
+  }
+
   dimension: pop_no_tz {
     sql: ${activity_date} ;;
   }
@@ -47,13 +64,11 @@ view: activity {
 
   dimension: segment_track {
     type: string
-    tags: ["user_id"]
+    tags: ["segment_anonymous_id"]
     sql: 'segment' ;;
   }
 
   dimension: type {
-    # Declared in Activity Grouping
-#     hidden: yes
     full_suggestions: yes
     type: string
     sql: ${TABLE}."activity_type" ;;
@@ -72,13 +87,6 @@ view: activity {
     type: string
     sql: ${icon_url} ;;
     html: <img src={{value}} width="100px" height="100px"> ;;
-  }
-
-  dimension: type_category {
-    # Declared in Activity Grouping
-#     hidden: yes
-    type: string
-    sql: CASE WHEN ${type} IN ('Run', 'Swim') THEN ${type} ELSE 'Other' END ;;
   }
 
   dimension: avg_heartrate {
@@ -328,19 +336,22 @@ view: activity {
     sql: SUM(${count}) OVER() ;;
   }
 
-  measure: other_count {
-    hidden: yes
-    type: sum
-    sql: 1 ;;
-    filters: {
-      field: type_category
-      value: "Other"
-    }
-  }
-
   measure: count_list {
     type: list
     list_field: type
+  }
+
+  measure: measure_from_parameter {
+    type: number
+    sql:
+    {% if measure_parameter._parameter_value == 'count' %}
+    {{count.rendered_value}}
+    {% elsif measure_parameter._parameter_value == 'distance' %}
+    {{total_distance.rendered_value}}
+    {% else %}
+    {{total_duration.rendered_value}}
+    {% endif %}
+    ;;
   }
 
   # measure: weighted_count_temp {
