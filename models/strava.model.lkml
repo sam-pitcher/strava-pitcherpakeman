@@ -1,10 +1,12 @@
-# connection: "strava"
-# connection: "td"
 connection: "tamedog"
 
 # include all the views
 include: "/views/**/*.view"
 include: "/dashboards/**/*.dashboard"
+
+include: "//the_look/views/products.view"
+
+explore: products {}
 
 datagroup: strava_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
