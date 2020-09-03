@@ -11,7 +11,3 @@ remote_dependency: the_look {
   url: "https://github.com/sam-pitcher/the_look.git"
   ref: "master"
 }
-
-local_dependency: {
-  project: "strava_hub"
-}
