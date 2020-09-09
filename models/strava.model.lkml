@@ -4,6 +4,8 @@ connection: "tamedog"
 include: "/views/**/*.view"
 include: "/dashboards/**/*.dashboard"
 
+# include views from remote repos
+include: "/views_common/*.view.lkml"
 include: "//the_look/views/products.view"
 
 explore: products {}
@@ -25,6 +27,27 @@ test: there_are_activities {
 }
 
 explore: activity {
+
+#   sql_always_where:
+#   {% assign email = _user_attributes['wm_email'] | split: '@' %}
+#   {% assign name = email[0] | split: '' %}
+#   {% assign store_id = '' %}
+#
+#   {% for i in name %}
+#     {% if i == '0' %}
+#       {% assign store_id = store_id | append: i %}
+#     {% else %}
+#       {% assign j = i| times:1 %}
+#       {% if j > 0 %}
+#         {% assign store_id = store_id | append: j %}
+#       {% endif %}
+#     {% endif %}
+#   {% endfor %}
+#
+#   {% if store_id | size > 0 %}
+#   'sam' = {{ store_id }}
+#   {% else %}
+#   {% endif %};;
 
   access_filter: {
     field: user.username
