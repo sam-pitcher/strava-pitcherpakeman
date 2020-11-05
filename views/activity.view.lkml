@@ -4,7 +4,7 @@ view: activity {
 
   sql_table_name: public.activity ;;
   extends: [period_over_period_postgresql]
-  drill_fields: [activity_id]
+  # drill_fields: [activity_id]
 
   parameter: type_parameter {
     suggest_dimension: type
@@ -40,7 +40,7 @@ view: activity {
     sql: 1 ;;
     action: {
       label: "Fill out form"
-      url: "https://stravateat.free.beeceptor.com"
+      url: "https://psotest.free.beeceptor.com"
       form_param: {
         name: "Title"
         type: string
@@ -53,7 +53,16 @@ view: activity {
         user_attribute: email
         name: "email"
       }
+      param: {
+        name: "total_duration"
+        value: "{{total_duration._value}}"
+      }
+      param: {
+        name: "TOKEN"
+        value: "{{token._value}}"
+      }
     }
+    html: Click here to give us feedback! ;;
   }
 
   dimension: activity_id {
@@ -72,10 +81,15 @@ view: activity {
     full_suggestions: yes
     type: string
     sql: ${TABLE}."activity_type" ;;
-    link: {
-      label: "DRILL IT"
-      url: "/explore/strava/activity?fields=activity.total_distance,activity.total_duration,activity.activity_month&fill_fields=activity.activity_month&f[activity.activity_month]=12+months&sorts=activity.activity_month&limit=500&column_limit=50&vis=%7B%22x_axis_gridlines%22%3Afalse%2C%22y_axis_gridlines%22%3Atrue%2C%22show_view_names%22%3Afalse%2C%22show_y_axis_labels%22%3Atrue%2C%22show_y_axis_ticks%22%3Atrue%2C%22y_axis_tick_density%22%3A%22default%22%2C%22y_axis_tick_density_custom%22%3A5%2C%22show_x_axis_label%22%3Atrue%2C%22show_x_axis_ticks%22%3Atrue%2C%22y_axis_scale_mode%22%3A%22linear%22%2C%22x_axis_reversed%22%3Afalse%2C%22y_axis_reversed%22%3Afalse%2C%22plot_size_by_field%22%3Afalse%2C%22trellis%22%3A%22%22%2C%22stacking%22%3A%22%22%2C%22limit_displayed_rows%22%3Afalse%2C%22legend_position%22%3A%22center%22%2C%22point_style%22%3A%22none%22%2C%22show_value_labels%22%3Afalse%2C%22label_density%22%3A25%2C%22x_axis_scale%22%3A%22auto%22%2C%22y_axis_combined%22%3Atrue%2C%22ordering%22%3A%22none%22%2C%22show_null_labels%22%3Afalse%2C%22show_totals_labels%22%3Afalse%2C%22show_silhouette%22%3Afalse%2C%22totals_color%22%3A%22%23808080%22%2C%22y_axes%22%3A%5B%7B%22label%22%3A%22%22%2C%22orientation%22%3A%22left%22%2C%22series%22%3A%5B%7B%22axisId%22%3A%22activity.total_distance%22%2C%22id%22%3A%22activity.total_distance%22%2C%22name%22%3A%22Total+Distance%22%7D%5D%2C%22showLabels%22%3Atrue%2C%22showValues%22%3Atrue%2C%22unpinAxis%22%3Afalse%2C%22tickDensity%22%3A%22default%22%2C%22tickDensityCustom%22%3A5%2C%22type%22%3A%22linear%22%7D%2C%7B%22label%22%3Anull%2C%22orientation%22%3A%22right%22%2C%22series%22%3A%5B%7B%22axisId%22%3A%22activity.total_duration%22%2C%22id%22%3A%22activity.total_duration%22%2C%22name%22%3A%22Total+Duration%22%7D%5D%2C%22showLabels%22%3Atrue%2C%22showValues%22%3Atrue%2C%22unpinAxis%22%3Afalse%2C%22tickDensity%22%3A%22default%22%2C%22tickDensityCustom%22%3A5%2C%22type%22%3A%22linear%22%7D%5D%2C%22series_types%22%3A%7B%22activity.total_duration%22%3A%22line%22%7D%2C%22type%22%3A%22looker_column%22%2C%22defaults_version%22%3A1%2C%22show_null_points%22%3Atrue%7D&filter_config=%7B%22activity.activity_month%22%3A%5B%7B%22type%22%3A%22past%22%2C%22values%22%3A%5B%7B%22constant%22%3A%2212%22%2C%22unit%22%3A%22mo%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded"
-    }
+    # link: {
+    #   label: "DRILL IT"
+    #   url: "/explore/strava/activity?fields=activity.total_distance,activity.total_duration,activity.activity_month&fill_fields=activity.activity_month&f[activity.activity_month]=12+months&sorts=activity.activity_month&limit=500&column_limit=50&vis=%7B%22x_axis_gridlines%22%3Afalse%2C%22y_axis_gridlines%22%3Atrue%2C%22show_view_names%22%3Afalse%2C%22show_y_axis_labels%22%3Atrue%2C%22show_y_axis_ticks%22%3Atrue%2C%22y_axis_tick_density%22%3A%22default%22%2C%22y_axis_tick_density_custom%22%3A5%2C%22show_x_axis_label%22%3Atrue%2C%22show_x_axis_ticks%22%3Atrue%2C%22y_axis_scale_mode%22%3A%22linear%22%2C%22x_axis_reversed%22%3Afalse%2C%22y_axis_reversed%22%3Afalse%2C%22plot_size_by_field%22%3Afalse%2C%22trellis%22%3A%22%22%2C%22stacking%22%3A%22%22%2C%22limit_displayed_rows%22%3Afalse%2C%22legend_position%22%3A%22center%22%2C%22point_style%22%3A%22none%22%2C%22show_value_labels%22%3Afalse%2C%22label_density%22%3A25%2C%22x_axis_scale%22%3A%22auto%22%2C%22y_axis_combined%22%3Atrue%2C%22ordering%22%3A%22none%22%2C%22show_null_labels%22%3Afalse%2C%22show_totals_labels%22%3Afalse%2C%22show_silhouette%22%3Afalse%2C%22totals_color%22%3A%22%23808080%22%2C%22y_axes%22%3A%5B%7B%22label%22%3A%22%22%2C%22orientation%22%3A%22left%22%2C%22series%22%3A%5B%7B%22axisId%22%3A%22activity.total_distance%22%2C%22id%22%3A%22activity.total_distance%22%2C%22name%22%3A%22Total+Distance%22%7D%5D%2C%22showLabels%22%3Atrue%2C%22showValues%22%3Atrue%2C%22unpinAxis%22%3Afalse%2C%22tickDensity%22%3A%22default%22%2C%22tickDensityCustom%22%3A5%2C%22type%22%3A%22linear%22%7D%2C%7B%22label%22%3Anull%2C%22orientation%22%3A%22right%22%2C%22series%22%3A%5B%7B%22axisId%22%3A%22activity.total_duration%22%2C%22id%22%3A%22activity.total_duration%22%2C%22name%22%3A%22Total+Duration%22%7D%5D%2C%22showLabels%22%3Atrue%2C%22showValues%22%3Atrue%2C%22unpinAxis%22%3Afalse%2C%22tickDensity%22%3A%22default%22%2C%22tickDensityCustom%22%3A5%2C%22type%22%3A%22linear%22%7D%5D%2C%22series_types%22%3A%7B%22activity.total_duration%22%3A%22line%22%7D%2C%22type%22%3A%22looker_column%22%2C%22defaults_version%22%3A1%2C%22show_null_points%22%3Atrue%7D&filter_config=%7B%22activity.activity_month%22%3A%5B%7B%22type%22%3A%22past%22%2C%22values%22%3A%5B%7B%22constant%22%3A%2212%22%2C%22unit%22%3A%22mo%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded"
+    # }
+  }
+
+  dimension: polyline {
+    type: string
+    sql: ${TABLE}.polyline ;;
   }
 
   dimension: icon_url {
@@ -204,18 +218,18 @@ view: activity {
     type: string
     sql: ${TABLE}."name" ;;
 #     html: <a href="https://www.strava.com/activities/{{activity_id._value}}">{{rendered_value}}</a> ;;
-    link: {
-      label: "See {{value}} on Strava"
-      url: "https://www.strava.com/activities/{{activity_id._value}}"
-    }
-    link: {
-      label: "Activity Overview"
-      url: "/dashboards/24?Activity%20ID={{activity_id._value}}"
-    }
-    link: {
-      label: "PBL Activity Overview"
-      url: "http://127.0.0.1:5000/activity_overview/{{activity_id._value}}"
-    }
+#     link: {
+#       label: "See {{value}} on Strava"
+#       url: "https://www.strava.com/activities/{{activity_id._value}}"
+#     }
+#     link: {
+#       label: "Activity Overview"
+#       url: "/dashboards/24?Activity%20ID={{activity_id._value}}"
+#     }
+#     link: {
+#       label: "PBL Activity Overview"
+#       url: "http://127.0.0.1:5000/activity_overview/{{activity_id._value}}"
+#     }
   }
 
   dimension: name_contains_parkrun {
@@ -283,14 +297,17 @@ view: activity {
     sql: 1.0 * ${distance} ;;
     value_format_name: decimal_1
 #     html: {{rendered_value}} km ;;
-    html:
-    {% if value < distance_benchmark._value %}
-    <font color="darkred">{{ rendered_value }} km</font>
-    {% elsif value > distance_benchmark._value %}
-    <font color="darkgreen">{{ rendered_value }} km</font>
-    {% else %}
-    <font color="goldenrod">{{ rendered_value }} km</font>
-    {% endif %} ;;
+    # html:
+    # {% if value < distance_benchmark._value %}
+    # <font color="darkred">{{ rendered_value }} km</font>
+    # {% elsif value > distance_benchmark._value %}
+    # <font color="darkgreen">{{ rendered_value }} km</font>
+    # {% else %}
+    # <font color="goldenrod">{{ rendered_value }} km</font>
+    # {% endif %} ;;
+    drill_fields: [activity.name, activity.total_distance, activity.total_duration]
+    link: {
+      url: "{{link}}?fields=activity.total_duration,activity.total_distance,activity.type&f[activity.activity_date]=6+months&sorts=activity.total_duration+desc&limit=500&vis=%7B%22x_axis_gridlines%22%3Afalse%2C%22y_axis_gridlines%22%3Atrue%2C%22show_view_names%22%3Afalse%2C%22show_y_axis_labels%22%3Atrue%2C%22show_y_axis_ticks%22%3Atrue%2C%22y_axis_tick_density%22%3A%22default%22%2C%22y_axis_tick_density_custom%22%3A5%2C%22show_x_axis_label%22%3Atrue%2C%22show_x_axis_ticks%22%3Atrue%2C%22y_axis_scale_mode%22%3A%22linear%22%2C%22x_axis_reversed%22%3Afalse%2C%22y_axis_reversed%22%3Afalse%2C%22plot_size_by_field%22%3Afalse%2C%22trellis%22%3A%22%22%2C%22stacking%22%3A%22%22%2C%22limit_displayed_rows%22%3Afalse%2C%22legend_position%22%3A%22center%22%2C%22point_style%22%3A%22none%22%2C%22show_value_labels%22%3Afalse%2C%22label_density%22%3A25%2C%22x_axis_scale%22%3A%22auto%22%2C%22y_axis_combined%22%3Atrue%2C%22show_null_points%22%3Atrue%2C%22interpolation%22%3A%22linear%22%2C%22y_axes%22%3A%5B%7B%22label%22%3A%22%22%2C%22orientation%22%3A%22left%22%2C%22series%22%3A%5B%7B%22axisId%22%3A%22activity.total_duration%22%2C%22id%22%3A%22activity.total_duration%22%2C%22name%22%3A%22Total+Duration%22%7D%5D%2C%22showLabels%22%3Atrue%2C%22showValues%22%3Atrue%2C%22unpinAxis%22%3Afalse%2C%22tickDensity%22%3A%22default%22%2C%22tickDensityCustom%22%3A5%2C%22type%22%3A%22linear%22%7D%2C%7B%22label%22%3Anull%2C%22orientation%22%3A%22right%22%2C%22series%22%3A%5B%7B%22axisId%22%3A%22activity.total_distance%22%2C%22id%22%3A%22activity.total_distance%22%2C%22name%22%3A%22Total+Distance%22%7D%5D%2C%22showLabels%22%3Atrue%2C%22showValues%22%3Atrue%2C%22unpinAxis%22%3Afalse%2C%22tickDensity%22%3A%22default%22%2C%22tickDensityCustom%22%3A5%2C%22type%22%3A%22linear%22%7D%5D%2C%22series_types%22%3A%7B%22activity.total_distance%22%3A%22column%22%7D%2C%22type%22%3A%22looker_line%22%2C%22defaults_version%22%3A1%7D&filter_config=%7B%22activity.activity_date%22%3A%5B%7B%22type%22%3A%22past%22%2C%22values%22%3A%5B%7B%22constant%22%3A%226%22%2C%22unit%22%3A%22mo%22%7D%2C%7B%7D%5D%2C%22id%22%3A0%2C%22error%22%3Afalse%7D%5D%7D&origin=share-expanded"  }
   }
 
   dimension: hash_date {
@@ -345,11 +362,11 @@ view: activity {
     type: number
     sql:
     {% if measure_parameter._parameter_value == 'count' %}
-    {{count.rendered_value}}
+    {{count._rendered_value}}
     {% elsif measure_parameter._parameter_value == 'distance' %}
-    {{total_distance.rendered_value}}
+    {{total_distance._rendered_value}}
     {% else %}
-    {{total_duration.rendered_value}}
+    {{total_duration._rendered_value}}
     {% endif %}
     ;;
   }
